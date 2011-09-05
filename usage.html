@@ -1,0 +1,166 @@
+
+<head>
+<title>kif command</title>
+
+<style type="text/css">
+body{ margin: 1in; }
+.title{ text-align: center; }
+dt { font-family: monospace; }
+pre { border: 1px solid; }
+
+</style>
+
+<head>
+<body>
+<h1 class=title>kif command</h1>
+
+<h1>What's this</h1>
+kif is a general utility for shogi record. It can read csa, kif, ki2. It write record or board in these format and SVG and EPS.
+It also extract game information such as game length, player name, and legal moves.
+See command sample below.
+
+<h1>Getting Started</h1>
+
+<h2>System Requirements</h2>
+	g++ mingw/msys is tested.
+<h2>Download</h2>
+<ul>
+	<li> source code <a href="">to be appeared</a>
+	<li> windows binary <a href="">to be appeared</a>
+</ul>
+
+<h2>Build</h2>
+<pre>
+	make
+</pre>
+note that, kif assume kif record is written in shift-jis. Part of source must be compiled with keep charset.
+If you run make, this is appropriately processed.
+
+<h2>Misc</h2>
+Send me any encouragement or bug report mailto: j-hashi.
+Note that, I have no responsibility to fix your reported bugs or results by this software.
+This software is under NYSL. You can modify, reuse total or part of this software as you want.
+
+<h1>Usage</h1>
+<h2>General</h2>
+kif is a command line tool to operate shogi record. accepted format is csa, kif, ki2, etc.
+short help is available by
+<pre>
+ kif -help
+</pre>
+or
+<pre>
+ kif --help
+</pre>
+
+<h2>Sample</h2>
+
+Read record by this extension and output to csa format 
+<pre>
+	kif filename.ki2 -onvert csa > convert.csa
+</pre>
+
+Multiple files on linux
+<pre>
+	for f in *.kif; do ./kif $f -convert > $f.csa ; done
+</pre>
+on windosx ???
+<pre>
+	for f in *.kif do kif %f -convert > $f.csa
+</pre>
+
+Create svg file only commented position
+<pre>
+	kif filename.kif -forc 1..-1 -svg
+</pre>
+
+Get leagal move list and count of specified ply
+<pre>
+	kif filename.kif -for 25 -format "%N%M"
+</pre>
+
+Get game inforamtion 
+<pre>
+	kif filename.kif -info "%b-%w-%d"
+</pre>
+
+<h2>Syntax</h2>
+<pre>
+ kif filename [options]
+</pre>
+if - is given for filename, stdin is used as target. see -input
+
+<h2>Options</h2>
+each option has to start with - or --. singular - stands for stdin for input file
+
+<dl>
+<dt> -convert csa           <dd>convert record to one of csa, kif, ki2, pico, usi?, fsen? format.
+<dt> -for 1..-1             <dd>target specifire for -format option. argmument shoud be one of -for n, -for n..m.
+	 1 stands for the initial position befor any move is played.
+	-1 stands for the last position before the last move is played.
+<dt> -forc 1..-1            <dd>same to -for, but skip positoins which does not have comment.
+<dt> -format %p%m           <dd>show board information in a given format.
+<dt> -help                  <dd>show help message
+<dt> -info %d-%b(%B)%w(%W)%l<dd>show game information in a ginve format.
+<dt> -input auto            <dd>change file type recoginition to one of auto, csa, kif, ki2, pico, usi?, fsen?.
+	basically kif recognize the file type from its extention. it has to be specified if - is given as input filename
+<dt> -version               <dd>show version
+</dl>
+
+<h2>Escape in format</h2>
+
+character start from \ or % has special meaning. 
+
+<h4>general</h4>
+<dl>
+<dt>\n<dd> newline
+<dt>\\<dd> single \
+</dl>
+
+<h4>Game information</h4>
+followings are available in argument of -info and -format
+
+<dl>
+<dt>%b<dd> black player name
+<dt>%w<dd> white player name             
+<dt>%B<dd> black elo rating       
+<dt>%W<dd> white elo rating       
+<dt>%e<dd> event name             
+<dt>%t<dd> title            
+<dt>%l<dd> game length 
+<dt>%d<dd> date      
+<dt>%s<dd> start at    
+<dt>%f<dd> finish at   
+<dt>%o<dd> opening     
+</dl>
+
+<h4>Board information</h4>
+followings are available only in argument of -format
+
+<dl>
+<dt>%p<dd>current board ply                   
+<dt>%m<dd>last move (already played move)             
+<dt>%n<dd>next move (to be played)
+<dt>%M<dd>legal moves (list of legal moves)           
+<dt>%N<dd>legal moves num
+<dt>%c<dd>comment   
+<dt>%K<dd>Kakinoki boad           
+<dt>%C<dd>CSA board    
+<dt>%P<dd>pico board   
+<dt>%O<dd>OhTeX board  
+<dt>%S<dd>SVG board   
+</dl>
+
+<h1>Other Resource</h1>
+
+<h2>Pico Format</h2>
+
+<h2>Other Formats</h2>
+<ul>
+<li> <a href="">kakinoki</a>
+<li> <a href="">csa</a>
+<li> <a href="">usi</a>
+<li> <a href="">sgf </a>
+</ul>
+
+<body>
